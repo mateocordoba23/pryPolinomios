@@ -13,14 +13,18 @@ public class clsPolinomios {
        
         String Vs[] = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
                                                       // ordenado de mayor a menor exp con su coeficiente
-        
-        clsForma1 F1 = new clsForma1();
+        clsForma1 F1 = new clsForma1(Integer.parseInt(Vs[1]));
         F1.Construir(Vs);
+        F1.mostrarVector();
         
-        //clsForma2 F2 = new clsForma2();
+        int Terminos = Terminos(Vs); //Numero de coe diferentes de cero
+        clsForma2 F2 = new clsForma2(Terminos);
+        F2.Construir(Vs);
+        F2.mostrarVector();
         
-        //clsForma3 F3 = new clsForma3();
-        //F3.Construir(Vs);
+        clsForma3 F3 = new clsForma3();
+        F3.Construir(Vs);
+        F3.mostrarLista();
         
         //Hacer un menú
 //        do {
@@ -58,10 +62,11 @@ public class clsPolinomios {
     public static String[] IngresoPol(){
 
         var pol = JOptionPane.showInputDialog("Ingrese un Polinomio: "); //Recibe el polinomio
+        pol = pol.replaceAll("\\s+", ""); //Quita todos los espacios del String
         
         String s = "";
         int j = 0;
-        char Vc[] = pol.toCharArray(); //Se pasa cad (string) a un arreglo de caracteres en el vector Vc
+        char Vc[] = pol.toCharArray(); //Se pasa pol (string) a un arreglo de caracteres en el vector Vc
         String Vs[] = new String[Vc.length]; //Se crea un nuevo vector con el tamaño de Vc
 
         for (int i = 0; i < Vc.length; i++) {
@@ -202,6 +207,17 @@ public class clsPolinomios {
         
         return Vs;
         
+    }
+    
+    public static int Terminos(String[] polinomio){
+        int terminosCont = 0;
+        for(int i=0; i<polinomio.length; i+=2){
+            if(Integer.parseInt(polinomio[i]) != 0){
+                terminosCont++;
+            }
+        }
+        
+        return terminosCont;
     }
         
         
