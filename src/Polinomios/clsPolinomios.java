@@ -13,18 +13,16 @@ public class clsPolinomios {
        
         String Vs[] = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
                                                       // ordenado de mayor a menor exp con su coeficiente
+                                                      
         clsForma1 F1 = new clsForma1(Integer.parseInt(Vs[1]));
         F1.Construir(Vs);
-        F1.mostrarVector();
         
         int Terminos = Terminos(Vs); //Numero de coe diferentes de cero
         clsForma2 F2 = new clsForma2(Terminos);
         F2.Construir(Vs);
-        F2.mostrarVector();
         
         clsForma3 F3 = new clsForma3();
         F3.Construir(Vs);
-        F3.mostrarLista();
         
         //Hacer un menú
 //        do {
