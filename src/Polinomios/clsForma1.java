@@ -53,7 +53,62 @@ public class clsForma1 {
          
     }
     
-    public void mostrarVector() { //Mostrar el VPF1
+    public void Recontruir(int[] VPF1){
+        
+        //Valida que el VPF1 es correcto o es 0
+        if(VPF1.length <= 1){
+            System.out.println("0");
+            return;
+        }
+        
+        String s="";
+        int grado = VPF1[0];
+        int Du = grado + 1;
+        
+        //Se recorre el VPF1 desde 1 hasta el final
+        for (int i = 1; i <= Du; i++) {
+            int coe = VPF1[i]; //coe del termino actual
+            int exp = Du - i;  //exp del termino actual
+
+            //Si coe es cero no muestra
+            if (coe == 0) {
+                continue;
+            }
+            
+            //agregar + o -
+            if(s.length() > 0){ //hay algo en s
+                s += (coe > 0 ? " + " : " - "); //ternario
+                                                // (condicion ? verdadero : falso)
+            } else if (coe < 0) { //coe negativo
+                s += "-";
+            }
+            
+            int valAbsCoe = (coe < 0 ? -coe : coe); //se pasa coe a positivo
+
+            //Valida si valCoe es termino independiente o coe !=1 (algoporX)
+            if(valAbsCoe != 1 || exp == 0){
+                s += valAbsCoe;
+            }
+            
+            //exp mayor a cero se agrega x^exp
+            if(exp > 0){
+                s += "x"; //se agrega solo x
+                if(exp > 1){
+                    s+="^" + exp; //se agrega x^exp
+                }
+            }            
+
+        }
+        
+        if(s.length() == 0){
+            System.out.println("0");
+        } else {
+            System.out.println(s);
+        }
+          
+    }
+    
+    public void mostrarForma() { //Mostrar el VPF1
         System.out.println("\n\nContenido de VPF1: ");
         for (int i = 0; i < VPF1.length; i++) {
             System.out.print("|" + VPF1[i] + "|");
@@ -114,7 +169,7 @@ public class clsForma1 {
         
     }
     
-    public void eleminarTermino(int exp){
+    public void eliminarTermino(int exp){
 
         //Validar si el exp pertenece al VPF1
         if(exp<0 || exp>VPF1[0]){
@@ -168,4 +223,31 @@ public class clsForma1 {
         
     }
     
+    public void evaluarPolForma1(int x){
+        int resultado = 0;
+        
+        //Recorrer VPF1 desde el primer coe
+        for(int i=1; i<= this.Du; i++){
+            int coe = VPF1[i]; //se consigue coe
+            
+            //coe 0 no aporta al resultado
+            if(coe != 0){
+                int exp = this.Du - i; //se obtiene exp
+                
+                int xElevado = 1;
+                //Multiplica x ella misma exp veces
+                for(int j=0;j<exp; j++){
+                    xElevado *= x;
+                }
+                
+                resultado += coe * xElevado;
+            }
+        }
+        
+        System.out.println("El resultado es: " + resultado);
+    }
+    
+    public void sumarPolinomiosForma1(){
+        
+    }
 }

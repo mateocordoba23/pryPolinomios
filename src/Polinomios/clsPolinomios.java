@@ -30,7 +30,9 @@ public class clsPolinomios {
 //            switch (opc) {
 //                case 1:
 //                    //Insertar
-//                    //F1.InsertarTermino(coe, exp);
+//                       JOptionPane.showMessageDialog("");
+//                       int coe, int exp;
+//                       F1.InsertarTermino(coe, exp);
 //                    break;
 //                case 2:
 //                    JOptionPane.showInputDialog("Digite el termino que quiere eliminar del polinomio: \n");
