@@ -90,6 +90,50 @@ public class clsForma3 {
         
     }
     
+    public void insertarTermino(int coe, int exp) {
+        //Si el coeficiente es 0, no hay nada que hacer.
+        if (coe == 0) {
+            return;
+        }
+
+        Nodo nuevo = new Nodo(coe, exp);
+        Nodo p = Punta;
+        Nodo ant = null;
+
+        // 2. Buscar la posición correcta para insertar o encontrar un exponente existente.
+        // El bucle avanza mientras no lleguemos al final y el exponente del nodo actual
+        // sea mayor que el exponente del nuevo término.
+        while (p != null && p.getExp() > exp) {
+            ant = p;
+            p = p.getLiga();
+        }
+
+        // 3. Evaluar el resultado de la búsqueda.
+        //Se encontró un término con el mismo exponente.
+        if (p != null && p.getExp() == exp) {
+            int nuevoCoe = p.getCoe() + coe;
+            p.setCoe(nuevoCoe);
+
+            // Si el nuevo coeficiente es 0, se debe eliminar el nodo.
+            if (p.getCoe() == 0) {
+                if (ant == null) { // El nodo a eliminar es el primero (Punta).
+                    Punta = p.getLiga();
+                } else { // El nodo a eliminar está en medio o al final.
+                    ant.setLiga(p.getLiga());
+                }
+            }
+        } // Es un término nuevo, se debe insertar en la lista.
+        else {
+            if (ant == null) { // Inserción al principio de la lista.
+                nuevo.setLiga(Punta);
+                Punta = nuevo;
+            } else { // Inserción en medio o al final de la lista.
+                nuevo.setLiga(p);
+                ant.setLiga(nuevo);
+            }
+        }
+    }
+    
     public void eliminarTermino(int exp){
         //Lista vacia
         if(Punta == null){
@@ -209,7 +253,7 @@ public class clsForma3 {
             q = q.getLiga();
         }
         
-        System.out.println("El resultado de la suma de polinomios es: ");
+        System.out.println("\nEl resultado de la suma de polinomios es: \n");
         polC.Reconstruir();
         
     }
@@ -286,7 +330,31 @@ public class clsForma3 {
         }
 
         // Se muestra el polinomio resultante.
-        System.out.println("El resultado de la multiplicación de polinomios es: ");
+        System.out.println("\nEl resultado de la multiplicación de polinomios es: \n");
         polC.Reconstruir();
+    }
+
+    public static clsForma3 SumarF1F2(clsForma1 A, clsForma2 B) {
+        clsForma3 resultado = new clsForma3();
+
+        // Recorrer Forma1
+        for (int i = 1; i < A.getVPF1().length; i++) {
+            int coe = A.getVPF1()[i];
+            int exp = A.getVPF1()[0] - (i - 1);
+            if (coe != 0) {
+                resultado.InsertarFinal(coe, exp);
+            }
+        }
+
+        // Recorrer Forma2
+        for (int i = 2; i <= B.getDu(); i += 2) {
+            int coe = B.getVPF2(i - 1);
+            int exp = B.getVPF2(i);
+            if (coe != 0) {
+                resultado.InsertarFinal(coe, exp);
+            }
+        }
+
+        return resultado;
     }
 }

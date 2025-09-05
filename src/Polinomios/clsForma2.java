@@ -39,9 +39,15 @@ public class clsForma2 {
     
     public void Construir(String []Vs){
         int j=1;
-        for(int i=0; i<Vs.length; i++){
-            VPF2[j] = Integer.parseInt(Vs[i]);
-            j++;
+        for(int i=0; i<Vs.length; i+=2){
+            int coe = Integer.parseInt(Vs[i]);
+            int exp = Integer.parseInt(Vs[i+1]);
+            
+            if(coe != 0){
+                VPF2[j] = coe;
+                VPF2[j+1] = exp;
+                j+=2;
+            }
         }
         
     }
@@ -86,13 +92,13 @@ public class clsForma2 {
         
         //Al final del ciclo s esta vacia o tiene el polinomio
         if(s.length() == 0){
-            System.out.println("0");
+            System.out.println("\n0");
         } else {
-            System.out.println(s);
+            System.out.println("\n" + s);
         }
     }
     
-    public void mostrarVector() { //Mostrar el VPF2
+    public void mostrarForma() { //Mostrar el VPF2
         System.out.println("\n\nContenido de VPF2: ");
         for (int i = 0; i < VPF2.length; i++) {
             System.out.print("|" + VPF2[i] + "|");
@@ -120,6 +126,17 @@ public class clsForma2 {
             }
         } else {
             //El termino es nuevo
+            if(Du + 2 >= VPF2.length){
+                int nuevoTam = VPF2.length + 2;
+                int[] VPF2_nuevo = new int[nuevoTam];
+                
+                for(int i=0; i<VPF2.length;i++){
+                    VPF2_nuevo[i] = VPF2[i];
+                }
+            
+                this.VPF2 = VPF2_nuevo;
+                
+            }
             
             //Se corre todo a la derecha para hacer espacio
             for(int i=Du; i>= posicion - 1; i--){
@@ -140,36 +157,40 @@ public class clsForma2 {
                 
     }
     
-    public void eliminarTermino(int exp){
-        int posicion = -1; //Funciona para indicar que no se ha encontrado
-        
-        //Buscar posicion de coe dado su exponente
-        for(int i=2; i<=Du; i++){ //Se recorre el vector por los exp
-            if(VPF2[i] == exp){
-                posicion = i; //Posion del exp
-                break; //Sale apenas encuentre la vaina
+    public void eliminarTermino(int exp) {
+        int posicionExponente = -1; // Inicia en -1 para indicar que no se ha encontrado.
+
+        for (int i = 2; i <= Du; i += 2) {
+            if (VPF2[i] == exp) {
+                posicionExponente = i; // Se guarda la posición del exponente.
+                break; // Se sale del bucle una vez encontrado.
             }
         }
-        
-        //Validar si el termino está
-        if(posicion == -1){
-            System.out.println("\n\n\tEl termino con elevado a " + exp + " no se encontro copielo bien :).");
-            return;
+
+        if (posicionExponente == -1) {
+            System.out.println("\n\n\tEl término con exponente " + exp + " no se encontró.");
+            return; // Termina la ejecución del método.
         }
-        
-        //Se pasa a la izquierda en el punto de los coe y exp que se quiere eliminar
-        // (posicion - 1) indica el coe y pos el exp
-        for(int i=posicion-1; i<=Du-2;i++){
-            VPF2[i] = VPF2[i+2];
+
+        for (int i = posicionExponente - 1; i <= Du - 2; i++) {
+            VPF2[i] = VPF2[i + 2];
         }
-        
-        //Se actualiza el # de termino y la dimension del vector
-        VPF2[0] = VPF2[0] - 1;
-        Du = Du - 2;
-        
-        System.out.println("\n\n\tTermino elevado al " + exp + " se borro correctamente.");
+
+        VPF2[0]--;
+        Du -= 2;
+
+        // REDIMENSIONAMIENTO DEL VECTOR ---
+        int[] nuevoVPF2 = new int[Du + 1];
+
+        // Se copian los elementos útiles del vector original al nuevo.
+        System.arraycopy(VPF2, 0, nuevoVPF2, 0, Du + 1);
+
+        // Se reemplaza el vector antiguo de la clase por el nuevo, ya redimensionado.
+        this.VPF2 = nuevoVPF2;
+
+        System.out.println("\n\n\tEl término con exponente " + exp + " se eliminó correctamente.");
     }
-    
+     
     public void evaluarPolForma2(int x){
         int resultado = 0;
         int terminos = VPF2[0];
@@ -191,12 +212,14 @@ public class clsForma2 {
     }
     
     public void sumarPolinomiosForma2(clsForma2 B){
+
+        int maxTer = this.VPF2[0] + B.getVPF2(0);
+        clsForma2 C = new clsForma2(maxTer);
+        
         //i j k
         int i=1; //pol A
         int j=1; //pol B
-        int k=1; //pol C
-        
-        clsForma2 C = new clsForma2(0);
+        int k=1; //pol C 
         
         //vectores A y B
         int[] VPF2_A = this.getVPF2();
@@ -229,7 +252,7 @@ public class clsForma2 {
                     j += 2;
                 }
             } else if (i<=this.getDu()){ //Si solo quedan terminos en A
-                C.setVPF2(k, VPF2_A[j]);
+                C.setVPF2(k, VPF2_A[i]);
                 C.setVPF2(k+1, VPF2_A[i+1]);
                 k+=2;
                 i+=2;
@@ -244,6 +267,20 @@ public class clsForma2 {
         int terminosC = (k-1)/2;
         C.setVPF2(0, terminosC);
         C.setDu(terminosC*2);
+        
+        int[] vFinalC = new int[C.getDu() + 1];
+        int[] vTempC = C.getVPF2();
+        
+        for (int w = 0; w <= C.getDu(); w++) {
+            vFinalC[w] = vTempC[w];
+        }
+        C.setVPF2(vFinalC);
+        
+        //Mostrar
+        System.out.println("\n\nEl resultado de la suma es: ");
+        C.Reconstruir(C.getVPF2());
+        C.mostrarForma();
+        
     }
     
     public void multiplicarPolinomios(clsForma2 B){
@@ -259,7 +296,7 @@ public class clsForma2 {
             int expA = VPF2_A[i+1];
             
             //recorrer el pol B
-            for(int j=0; j<= B.getDu(); j+= 2){
+            for(int j=1; j<= B.getDu(); j+= 2){
                 int coeB = VPF2_B[j];
                 int expB = VPF2_B[j+1];
                 
@@ -273,7 +310,7 @@ public class clsForma2 {
         //Mostrar
         System.out.println("\n\nEl resultado de la multiplicacion es: ");
         C.Reconstruir(C.getVPF2());
-        C.mostrarVector();
+        C.mostrarForma();
         
         
     }

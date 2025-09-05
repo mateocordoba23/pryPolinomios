@@ -44,9 +44,13 @@ public class clsForma1 {
             int coe = Integer.parseInt(Vs[i]); //Tomamos el coe
             int exp = Integer.parseInt(Vs[i+1]); //Tomamos el exp
             
-            if(exp <= VPF1[0]){ //Comparamos exp y grado
-                int pos = Du - exp;
-                VPF1[pos] = coe;
+            if(exp <= Du){ //Comparamos exp y grado
+                
+                if(exp >= 0){
+                    int pos = Du - exp;
+                    VPF1[pos] = coe;  
+                }
+                
             }
                
         }
@@ -101,9 +105,9 @@ public class clsForma1 {
         }
         
         if(s.length() == 0){
-            System.out.println("0");
+            System.out.println("\n0");
         } else {
-            System.out.println(s);
+            System.out.println("\n"+s);
         }
           
     }
@@ -269,19 +273,19 @@ public class clsForma1 {
             int coeA = 0;
             //Si el exp actual de pol A  existe se obtiene su coeficiente
             if(exp<=gradoA){
-                int posicionA = this.Du - exp;
+                int posicionA = (gradoA - exp) + 1;
                 coeA = this.getVPF1(posicionA);
             }
             
             int coeB = 0;
             //Si el exp actual de pol B existe se obtiene su coeficiente
             if(exp<=gradoB){
-                int posicionB = B.getDu() - exp;
+                int posicionB = (gradoB - exp) + 1;
                 coeB = B.getVPF1(posicionB);
             }
             
             //Sumar los coe y agregar a C
-            int posicionC = C.getDu() - exp;
+            int posicionC = (gradoMay - exp) + 1;
             C.setVPF1(posicionC, coeA + coeB);
         }
         
@@ -291,7 +295,7 @@ public class clsForma1 {
         this.Recontruir(this.getVPF1());//Muestra el primer POLINOMIO 
         
         System.out.println("Polinomio B: ");
-        this.Recontruir(this.getVPF1());//Muestra el segundo POLINOMIO
+        B.Recontruir(B.getVPF1());//Muestra el segundo POLINOMIO
         
         System.out.println("Resultado de la suma A+B: ");
         C.Recontruir(C.getVPF1()); //Muestra c
@@ -342,16 +346,51 @@ public class clsForma1 {
         //Mostrar
         System.out.println("\n\n---- Multiplicacion de polinomios ----");
         
-        System.out.println("Polinomio A: ");
+        System.out.println("\nPolinomio A: ");
         this.Recontruir(this.getVPF1());
         
-        System.out.println("Polinomio B: ");
+        System.out.println("\nPolinomio B: ");
         B.Recontruir(B.getVPF1());
         
-        System.out.println("Resultado A*B: ");
+        System.out.println("\nResultado A*B: ");
         C.Recontruir(C.getVPF1());
         C.mostrarForma();
     }
     
+    public static clsForma1 MultiplicarF3F2(clsForma3 A, clsForma2 B) {
+        int gradoRes = 0;
+
+        // Calcular grado máximo posible (para tamaño del arreglo)
+        Nodo p = A.getPunta();
+        while (p != null) {
+            for (int j = 2; j <= B.getDu(); j += 2) {
+                int exp = p.getExp() + B.getVPF2(j);
+                if (exp > gradoRes) {
+                    gradoRes = exp;
+                }
+            }
+            p = p.getLiga();
+        }
+
+        clsForma1 resultado = new clsForma1(gradoRes);
+
+        // Recorremos F3 (lista enlazada)
+        p = A.getPunta();
+        while (p != null) {
+            int coeA = p.getCoe();
+            int expA = p.getExp();
+
+            // Recorremos F2 (vector de pares coe-exp)
+            for (int j = 2; j <= B.getDu(); j += 2) {
+                int coeB = B.getVPF2(j - 1);
+                int expB = B.getVPF2(j);
+                resultado.insertarTermino(coeA * coeB, expA + expB);
+            }
+
+            p = p.getLiga();
+        }
+
+        return resultado;
+    }
 
 }
