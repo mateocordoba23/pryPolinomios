@@ -45,7 +45,7 @@ public class clsForma1 {
             int exp = Integer.parseInt(Vs[i+1]); //Tomamos el exp
             
             if(exp <= VPF1[0]){ //Comparamos exp y grado
-                int pos = Du - exp; 
+                int pos = Du - exp;
                 VPF1[pos] = coe;
             }
                
@@ -247,7 +247,111 @@ public class clsForma1 {
         System.out.println("El resultado es: " + resultado);
     }
     
-    public void sumarPolinomiosForma1(){
+    public void sumarPolinomiosForma1(clsForma1 B) {
+
+        //Determinar el grado mayor entre los 2 polis
+        int gradoA = this.VPF1[0];
+        int gradoB = B.getVPF1(0);
+        int gradoMay;
+
+        if (gradoA > gradoB) {
+            gradoMay = gradoA;
+        } else {
+            gradoMay = gradoB;
+        }
+
+        //Se crea el objeto c
+        clsForma1 C = new clsForma1(gradoMay);
+
+        //Se recorre todos los exponentes desde el frado mayor a 0
+        for (int exp = gradoMay; exp >= 0; exp--) {
+            
+            int coeA = 0;
+            //Si el exp actual de pol A  existe se obtiene su coeficiente
+            if(exp<=gradoA){
+                int posicionA = this.Du - exp;
+                coeA = this.getVPF1(posicionA);
+            }
+            
+            int coeB = 0;
+            //Si el exp actual de pol B existe se obtiene su coeficiente
+            if(exp<=gradoB){
+                int posicionB = B.getDu() - exp;
+                coeB = B.getVPF1(posicionB);
+            }
+            
+            //Sumar los coe y agregar a C
+            int posicionC = C.getDu() - exp;
+            C.setVPF1(posicionC, coeA + coeB);
+        }
+        
+        //Mostrar suma y c
+        System.out.println("\n\n---- Suma de polinomios ----");
+        System.out.println("Polinomio A: ");
+        this.Recontruir(this.getVPF1());//Muestra el primer POLINOMIO 
+        
+        System.out.println("Polinomio B: ");
+        this.Recontruir(this.getVPF1());//Muestra el segundo POLINOMIO
+        
+        System.out.println("Resultado de la suma A+B: ");
+        C.Recontruir(C.getVPF1()); //Muestra c
+        C.mostrarForma();
         
     }
+    
+    public void multiplicarPolinomios(clsForma1 B){
+        
+        //El grado de c es la suma de grados
+        int gradoA = this.VPF1[0];
+        int gradoB = B.getVPF1(0);
+        int gradoC = gradoA + gradoB;
+        
+        //Se crea c
+        clsForma1 C = new clsForma1(gradoC);
+        
+        //Se anda por todo el pol A
+        for(int i=1; i<=this.Du; i++){
+            int coeA = this.VPF1[i];
+            
+            //Si coe es 0, no se hace nada
+            if(coeA == 0){
+                continue;
+            }
+            int expA = this.Du - i;
+            
+            //Se anda por todo B
+            for(int j=1; j<= B.getDu(); j++){
+                int coeB = B.getVPF1(j);
+                
+                if(coeB == 0){
+                    continue;
+                }
+                int expB = B.getDu() - j;
+                
+                //Se calcula el producto de los dos terminos
+                int coeResul = coeA * coeB;
+                //El nuevo exp es la suma de los exp
+                int expResul = expA + expB;
+                
+                //Acumular el resultado en C
+                int posicionResul = C.getDu() - expResul;
+                C.VPF1[posicionResul] += coeResul;
+            }
+        }
+        
+        //Mostrar
+        System.out.println("\n\n---- Multiplicacion de polinomios ----");
+        
+        System.out.println("Polinomio A: ");
+        this.Recontruir(this.getVPF1());
+        
+        System.out.println("Polinomio B: ");
+        B.Recontruir(B.getVPF1());
+        
+        System.out.println("Resultado A*B: ");
+        C.Recontruir(C.getVPF1());
+        C.mostrarForma();
+    }
+    
+
 }

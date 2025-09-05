@@ -46,7 +46,7 @@ public class clsForma2 {
         
     }
     
-    public void Recontruir(int[] VPF2){
+    public void Reconstruir(int[] VPF2){
         //Valida que el # de terminos no sea 0
         if(VPF2[0] == 0){
             System.out.println("0");
@@ -104,26 +104,22 @@ public class clsForma2 {
             return;
         }
         
-        int posicion = 1;
-        
-        //Se busca si el termino que se ingresa tiene igual exp que uno del vector
-        while(posicion <= Du && VPF2[posicion + 1] != exp){
+        //Se busca la posicion del donde el exponente del vector 
+        //donde sea menor o igual al exponente del nuevo termino
+        int posicion = 2;
+        while(posicion <= Du && VPF2[posicion] > exp){
             posicion += 2;
         }
         
         //exp hallado
-        if(posicion <= Du){
-            VPF2[posicion] += coe; //Suma el coe nuevo con el coe existente
-            if(VPF2[posicion] == 0){
+        if(posicion <= Du && VPF2[posicion] == exp){
+            VPF2[posicion - 1] += coe; //Suma el coe nuevo con el coe existente
+            if(VPF2[posicion - 1] == 0){
                 //Se elimina el coe que se vuelve cero
                 eliminarTermino(exp);
             }
         } else {
             //El termino es nuevo
-            posicion = 2; //Se busca la posicion para agregarlo
-            while (posicion <= Du && VPF2[posicion] > exp){
-                posicion += 2;
-            }
             
             //Se corre todo a la derecha para hacer espacio
             for(int i=Du; i>= posicion - 1; i--){
@@ -194,12 +190,93 @@ public class clsForma2 {
         
     }
     
-    public void sumarPolinomiosForma2(){
+    public void sumarPolinomiosForma2(clsForma2 B){
+        //i j k
+        int i=1; //pol A
+        int j=1; //pol B
+        int k=1; //pol C
         
+        clsForma2 C = new clsForma2(0);
+        
+        //vectores A y B
+        int[] VPF2_A = this.getVPF2();
+        int[] VPF2_B = B.getVPF2();
+        
+        //Mientras halla terminos en cualquiera de los dos
+        while (i <= this.getDu() || j <= B.getDu()){
+            if(i<=this.getDu() && j<=B.getDu()){ //Si ambos tienen terminos
+                int expA = VPF2_A[i + 1];
+                int expB = VPF2_B[j + 1];
+                
+                if(expA == expB){ //exponentes iguales
+                    int nuevoCoe = VPF2_A[i] + VPF2_B[j];
+                    if(nuevoCoe != 0){
+                        C.setVPF2(k, nuevoCoe);
+                        C.setVPF2(k+1, expA);
+                        k += 2;
+                    }
+                    i += 2;
+                    j += 2;
+                } else if (expA > expB){ //Exponente A es mayor
+                    C.setVPF2(k, VPF2_A[i]);
+                    C.setVPF2(k+1, VPF2_A[i + 1]);
+                    k += 2;
+                    i += 2;
+                } else { //Exponente B es mayor
+                    C.setVPF2(k, VPF2_B[j]);
+                    C.setVPF2(k+1, VPF2_B[j+1]);
+                    k += 2;
+                    j += 2;
+                }
+            } else if (i<=this.getDu()){ //Si solo quedan terminos en A
+                C.setVPF2(k, VPF2_A[j]);
+                C.setVPF2(k+1, VPF2_A[i+1]);
+                k+=2;
+                i+=2;
+            } else { //Si solo quedan terminos en B
+                C.setVPF2(k, VPF2_B[j]);
+                C.setVPF2(k+1, VPF2_B[j+1]);
+                k += 2;
+                j += 2;
+            }
+        }
+        //Actualizar el terminos y Du
+        int terminosC = (k-1)/2;
+        C.setVPF2(0, terminosC);
+        C.setDu(terminosC*2);
     }
     
-    
-    
-    
+    public void multiplicarPolinomios(clsForma2 B){
+        
+        clsForma2 C = new clsForma2(0);
+        
+        int[] VPF2_A = this.getVPF2();
+        int[] VPF2_B = B.getVPF2();
+        
+        //recorrer cada termino del pol A 
+        for(int i=1; i<= this.getDu(); i += 2){
+            int coeA = VPF2_A[i];
+            int expA = VPF2_A[i+1];
+            
+            //recorrer el pol B
+            for(int j=0; j<= B.getDu(); j+= 2){
+                int coeB = VPF2_B[j];
+                int expB = VPF2_B[j+1];
+                
+                int nuevoCoe = coeA * coeB;
+                int nuevoExp = expA + expB;
+                
+                C.insertarTermino(nuevoCoe, nuevoExp);
+            }
+        }
+        
+        //Mostrar
+        System.out.println("\n\nEl resultado de la multiplicacion es: ");
+        C.Reconstruir(C.getVPF2());
+        C.mostrarVector();
+        
+        
+    }
+     
 }
     

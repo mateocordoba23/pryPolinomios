@@ -9,20 +9,21 @@ import javax.swing.JOptionPane;
 public class clsPolinomios {
     public static void main(String[] args) {
     
-        //int opc = 0;
+        //int opc = 0; 
        
-        String Vs[] = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
-                                                      // ordenado de mayor a menor exp con su coeficiente
+        var Vs = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
+                                                 // ordenado de mayor a menor exp con su coeficiente
                                                       
-        clsForma1 F1 = new clsForma1(Integer.parseInt(Vs[1]));
-        F1.Construir(Vs);
-        
-        int Terminos = Terminos(Vs); //Numero de coe diferentes de cero
-        clsForma2 F2 = new clsForma2(Terminos);
-        F2.Construir(Vs);
-        
+//        clsForma1 F1 = new clsForma1(Integer.parseInt(Vs[1]));
+//        F1.Construir(Vs);
+//        
+//        int Terminos = Terminos(Vs); //Numero de coe diferentes de cero
+//        clsForma2 F2 = new clsForma2(Terminos);
+//        F2.Construir(Vs); 
+//        
         clsForma3 F3 = new clsForma3();
         F3.Construir(Vs);
+        F3.evaluarPolForma3(2);
         
         //Hacer un menú
 //        do {

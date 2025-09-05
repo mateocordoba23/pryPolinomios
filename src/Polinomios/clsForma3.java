@@ -164,10 +164,129 @@ public class clsForma3 {
             p = p.getLiga();
         }
         
-        System.out.println("El sultado es: " + resultado);
+        System.out.println("El Resultado es: " + resultado);
     }
     
-    public void sumarPolinomiosForma3(){
+    public void sumarPolinomiosForma3(clsForma3 B){
+        clsForma3 polC = new clsForma3(); //pol resultado
+        Nodo p = this.getPunta(); //puntero A
+        Nodo q = B.getPunta(); //puntero B
         
+        //Mientras haya nodos en ambos polinomios
+        while(p != null && q != null){
+            int expP = p.getExp();
+            int expQ = q.getExp();
+            
+            if(expP > expQ){ //Si el exp de B es mayor
+                polC.InsertarFinal(p.getCoe(), expQ);
+                p = p.getLiga(); //avanza el pol A
+            } else if (expQ > expP){
+                //Si el exp B es mayor
+                polC.InsertarFinal(q.getCoe(), expQ);
+                q = q.getLiga();//avanza el pol B
+            } else {
+                //Exp iguales
+                int nuevoCoe = p.getCoe() + q.getCoe();
+                
+                if(nuevoCoe != 0){
+                    polC.InsertarFinal(nuevoCoe, expP);
+                }
+                
+                p = p.getLiga();
+                q = q.getLiga();
+            }
+        }
+        
+        //Añade los terminos de A si hay
+        while(p != null){
+            polC.InsertarFinal(p.getCoe(), p.getExp());
+            p = p.getLiga();
+        }
+        
+        //Añade los terminos de B si hay
+        while(q != null){
+            polC.InsertarFinal(q.getCoe(), q.getExp());
+            q = q.getLiga();
+        }
+        
+        System.out.println("El resultado de la suma de polinomios es: ");
+        polC.Reconstruir();
+        
+    }
+    
+    public void multiplicarPolinomiosForma3(clsForma3 B) {
+        // Polinomio C almacenará el resultado final.
+        clsForma3 polC = new clsForma3();
+        // 'p' recorrerá el polinomio actual (this).
+        Nodo p = this.getPunta();
+
+        // Si alguno de los polinomios está vacío, el resultado es 0.
+        if (p == null || B.getPunta() == null) {
+            System.out.println("El resultado de la multiplicación de polinomios es:");
+            System.out.println("0");
+            return;
+        }
+
+        // Bucle para iterar a través de cada término del primer polinomio (this).
+        while (p != null) {
+            // 'q' recorrerá el segundo polinomio (B) por cada término de 'p'.
+            Nodo q = B.getPunta();
+
+            // Bucle para multiplicar el término actual de 'p' con cada término de 'q'.
+            while (q != null) {
+                // Se calcula el nuevo coeficiente y exponente.
+                int nuevoCoe = p.getCoe() * q.getCoe();
+                int nuevoExp = p.getExp() + q.getExp();
+
+                // --- Lógica para insertar/sumar el nuevo término en el polinomio resultado 'polC' ---
+                // Si el polinomio resultado está vacío, se inserta el primer término.
+                if (polC.Punta == null) {
+                    polC.Punta = new Nodo(nuevoCoe, nuevoExp);
+                } else {
+                    // Punteros para recorrer el polinomio resultado 'polC'.
+                    Nodo r = polC.Punta;
+                    Nodo anterior = null;
+
+                    // Se busca la posición correcta para el nuevo término (ordenado por exponente de mayor a menor).
+                    while (r != null && r.getExp() > nuevoExp) {
+                        anterior = r;
+                        r = r.getLiga();
+                    }
+
+                    // Si se encuentra un término con el mismo exponente, se suman los coeficientes.
+                    if (r != null && r.getExp() == nuevoExp) {
+                        int coeExistente = r.getCoe();
+                        r.setCoe(coeExistente + nuevoCoe);
+
+                        // Si la suma de coeficientes da cero, se elimina el nodo.
+                        if (r.getCoe() == 0) {
+                            if (anterior == null) { // El nodo a eliminar es el primero.
+                                polC.Punta = r.getLiga();
+                            } else { // El nodo a eliminar está en medio o al final.
+                                anterior.setLiga(r.getLiga());
+                            }
+                        }
+                    } else {
+                        // Si no existe un término con ese exponente, se crea un nuevo nodo y se enlaza.
+                        Nodo nuevoNodo = new Nodo(nuevoCoe, nuevoExp);
+                        if (anterior == null) { // Insertar al inicio de la lista.
+                            nuevoNodo.setLiga(polC.Punta);
+                            polC.Punta = nuevoNodo;
+                        } else { // Insertar en medio o al final de la lista.
+                            nuevoNodo.setLiga(r);
+                            anterior.setLiga(nuevoNodo);
+                        }
+                    }
+                }
+                // Se avanza al siguiente término del segundo polinomio.
+                q = q.getLiga();
+            }
+            // Se avanza al siguiente término del primer polinomio.
+            p = p.getLiga();
+        }
+
+        // Se muestra el polinomio resultante.
+        System.out.println("El resultado de la multiplicación de polinomios es: ");
+        polC.Reconstruir();
     }
 }
