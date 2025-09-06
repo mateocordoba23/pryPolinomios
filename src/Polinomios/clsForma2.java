@@ -99,7 +99,7 @@ public class clsForma2 {
     }
     
     public void mostrarForma() { //Mostrar el VPF2
-        System.out.println("\n\nContenido de VPF2: ");
+        System.out.println("\n\nContenido de VPF2:");
         for (int i = 0; i < VPF2.length; i++) {
             System.out.print("|" + VPF2[i] + "|");
         }

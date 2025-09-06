@@ -175,7 +175,7 @@ public class clsPolinomios {
                                 var coe = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Coeficiente"));
                                 var exp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Exponente"));
 
-                                F3.insertarTermino(coe, exp);
+                                F3.InsertarFinal(coe, exp);
                                 
                                 break;
                                 
@@ -245,16 +245,16 @@ public class clsPolinomios {
                     clsForma2 F2t = new clsForma2(terminosF2);
                     F2t.Construir(VsF2);
                     
+                    F1t.mostrarForma();
+                    F1t.Recontruir(F1t.getVPF1());
+                    
+                    F2t.mostrarForma();
+                    F2t.Reconstruir(F2t.getVPF2());
+                    
                     //Crear el resultado en F3
                     clsForma3 F3res = clsForma3.SumarF1F2(F1t, F2t);
                     
-                    F1t.Recontruir(F1t.getVPF1());
-                    F1t.mostrarForma();
-                    
-                    F2t.Reconstruir(F2t.getVPF2());
-                    F2.mostrarForma();
-                    
-                    JOptionPane.showMessageDialog(null, "Resultado de F1 + F2 en Forma 3:");
+                    JOptionPane.showMessageDialog(null, "Resultado de F1 + F2 en Forma 3: ");
                     
                     F3res.Reconstruir();
                     F3res.mostrarLista();
