@@ -27,43 +27,47 @@ public class clsPolinomios {
 
             switch (opc1) {
                 case 1:
-                    //F1.Construir(Vs);
                     do {
-                        opc = Menu();
+                        opc = Menu(); //Forma 1
                         switch (opc) {
-                            case 1:
+                            case 1: //Insertar termino en Forma1 
+                                //Se pide al usuario un coe y un exp y se guarda en var (se adapta al tipo de dato que le des desde que le des uno)
                                 var coe = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Coeficiente: "));
                                 var exp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Exponente: "));
-
+                                
+                                JOptionPane.showMessageDialog(null,"Se ha insertado el termino: Coeficiente: " + coe + ", Exponente: " + exp);
                                 F1.insertarTermino(coe, exp);
 
                                 break;
 
-                            case 2:
+                            case 2: //Eliminar termino del VPF1 en Forma1
+                                //Se pide al usuario una exp del termino a borrar
                                 var expBorrar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el Exponente que desea borrar: "));
 
                                 F1.eliminarTermino(expBorrar);
+
+                                break;
+
+                            case 3: //Mostrar VPF1 |dato| ...
                                 F1.mostrarForma();
 
                                 break;
 
-                            case 3:
-                                F1.mostrarForma();
+                            case 4: //Pasa el VPF1 a su forma de polinomio
+                                //Mediante POO se llama a VPF1
+                                System.out.println("\n\nVPF1 en Polinomio: ");
+                                F1.Reconstruir(F1.getVPF1());
 
                                 break;
 
-                            case 4:
-                                F1.Recontruir(F1.getVPF1());
-
-                                break;
-
-                            case 5:
+                            case 5: //Se evalua el polinomio dandole un valor a X
                                 var x = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un valor para X: "));
                                 F1.evaluarPolForma1(x);
 
                                 break;
 
-                            case 6:
+                            case 6: //Suma de polinomios de la misma forma2
+                                //Ta hay un polinomio ingresado el del inicio del programa solo falta pedir otro
                                 //Se crea otro polinomio para sumarlos
                                 var Vs2 = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
                                 // ordenado de mayor a menor exp con su coeficiente
@@ -75,9 +79,9 @@ public class clsPolinomios {
 
                                 break;
 
-                            case 7:
+                            case 7: //Multiplicacion de polinomios de la misma forma1
                                 //Se crea otro polinomio para multiplicarlo
-                                var Vs3 = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
+                                var Vs3 = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño 
 
                                 clsForma1 F1c = new clsForma1(Integer.parseInt(Vs3[1]));
                                 F1c.Construir(Vs3);
@@ -95,43 +99,49 @@ public class clsPolinomios {
                     break;
 
                 case 2:
-                    //F2.Construir(Vs);
                     do {
-                        opc = Menu2();
+                        opc = Menu2(); //Forma 2
                         switch(opc){
-                            case 1:
+                            case 1: //Insertar termino
+                                //El usuario ingresa un coe y un exp 
                                 var coe = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Coeficiente: "));
                                 var exp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Exponente: "));
                                 
                                 F2.insertarTermino(coe, exp);
                                 
+                                if(coe != 0){
+                                    System.out.println("\n\nSe ha insertado el termino: Coeficiente: " + coe + ", Exponente: " + exp);
+                                    JOptionPane.showMessageDialog(null,"Se ha insertado el termino: Coeficiente: " + coe + ", Exponente: " + exp);
+                                }
+                                
                                 break;
                                 
-                            case 2:
-                                var expBorrar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el Exponente que desea borrar: ")); 
+                            case 2: //Eliminar termino
+                                //El usuario ingresa el exp del termino por eliminar
+                                var expBorrar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el Exponente del termino que desea borrar: ")); 
                                 
                                 F2.eliminarTermino(expBorrar);
+       
+                                break;
+                                
+                            case 3://Mostrar Forma (mostrar VPF2)
                                 F2.mostrarForma();
                                 
                                 break;
                                 
-                            case 3:
-                                F2.mostrarForma();
-                                
-                                break;
-                                
-                            case 4:
+                            case 4: //Mostrar el VPF2 en polinomio
+                                System.out.println("\n\nVPF2 en Polinomio: ");
                                 F2.Reconstruir(F2.getVPF2());
                                 
                                 break;
                                 
-                            case 5:
+                            case 5: //Evaluar polinomio dandole un valor a X
                                 var x = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un valor para X: "));
                                 F2.evaluarPolForma2(x);
                                 
                                 break;
                                 
-                            case 6:
+                            case 6: //Suma de polinomios de la misma forma
                                 //Se crea otro polinomio para sumarlos
                                 var Vs2 = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
                                 // ordenado de mayor a menor exp con su coeficiente
@@ -143,7 +153,7 @@ public class clsPolinomios {
 
                                 break;
                                 
-                            case 7:
+                            case 7: //Multiplicacion de polinomios
                                 //Se crea otro polinomio para multiplicarlo
                                 var Vs3 = Ordenar(Ajustar(IngresoPol())); // Asigna a Vs el polinomio ajustado el tamaño y 
 
@@ -167,43 +177,45 @@ public class clsPolinomios {
                     
                 case 3:
                     //F3.construir(Vs);
-                    do{
-                        opc = Menu3();
+                    do {
+                        opc = Menu3(); //Forma 3
                         
                         switch(opc){
-                            case 1:
+                            case 1: //Insertar termino 
                                 var coe = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Coeficiente"));
                                 var exp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un Exponente"));
-
-                                F3.InsertarFinal(coe, exp);
+                                
+                                JOptionPane.showMessageDialog(null,"Se ha insertado el termino: Coeficiente: " + coe + ", Exponente: " + exp);
+                                F3.insertarTermino(coe, exp);
                                 
                                 break;
                                 
-                            case 2:
+                            case 2: //Eliminar termino
                                 var expBorrar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el Exponente del termino que desea borrar: "));
                                 
                                 F3.eliminarTermino(expBorrar);
                                 
                                 break;
                                 
-                            case 3:
+                            case 3: //Mostrar Lista (VPF3)
                                 F3.mostrarLista();
                                 
                                 break;
                                 
-                            case 4:
+                            case 4: //Mostrar Lista en Polinomio
+                                System.out.println("\n\nVPF3 en Polinomio: ");
                                 F3.Reconstruir();
                                 
                                 break;
                                 
-                            case 5:
+                            case 5: //Evaluar pol dando un valor a X
                                 var x = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el valor de x: "));
                                 
                                 F3.evaluarPolForma3(x);
                                 
                                 break;
                                 
-                            case 6:
+                            case 6: //Suma de polinomios de la misma forma
                                 String Vs3[] = Ordenar(Ajustar(IngresoPol()));
                                 
                                 clsForma3 F3b = new clsForma3();
@@ -213,7 +225,7 @@ public class clsPolinomios {
                                 
                                 break;
                             
-                            case 7:
+                            case 7: //Multiplicacion de polinomios de la misma forma
                                 String Vs4[] = Ordenar(Ajustar(IngresoPol()));
                                 
                                 clsForma3 F3c = new clsForma3();
@@ -245,16 +257,18 @@ public class clsPolinomios {
                     clsForma2 F2t = new clsForma2(terminosF2);
                     F2t.Construir(VsF2);
                     
+                    System.out.println("\n\nPolinomio A:");
                     F1t.mostrarForma();
-                    F1t.Recontruir(F1t.getVPF1());
+                    F1t.Reconstruir(F1t.getVPF1());
                     
+                    System.out.println("\nPolinomio B:");
                     F2t.mostrarForma();
                     F2t.Reconstruir(F2t.getVPF2());
                     
                     //Crear el resultado en F3
                     clsForma3 F3res = clsForma3.SumarF1F2(F1t, F2t);
                     
-                    JOptionPane.showMessageDialog(null, "Resultado de F1 + F2 en Forma 3: ");
+                    System.out.println("\nResultado de (Forma1)F1 + (Forma2)F2 = (Forma3)F3 : ");
                     
                     F3res.Reconstruir();
                     F3res.mostrarLista();
@@ -276,15 +290,17 @@ public class clsPolinomios {
                     //Crear resultado en forma 1 usando directamente F3 y F2
                     clsForma1 F1res = clsForma1.MultiplicarF3F2(F3t, F4t);
                     
+                    System.out.println("\n\nPolinomio A:");
                     F3t.Reconstruir();
                     F3t.mostrarLista();
                     
+                    System.out.println("\nPolinomio B:");
                     F4t.Reconstruir(F4t.getVPF2());
                     F4t.mostrarForma();
                     
-                    JOptionPane.showMessageDialog(null, "Resultado de F3 * F2 en Forma 1: ");
+                    System.out.println("\n\nResultado de F3(Forma 3) * F2(Forma 2) = F1(Forma 1) : ");
                     
-                    F1res.Recontruir(F1res.getVPF1());
+                    F1res.Reconstruir(F1res.getVPF1());
                     F1res.mostrarForma();
                     
                     break;
@@ -308,12 +324,12 @@ public class clsPolinomios {
     }
     
     public static int Menu(){
-        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menu Principal -----\n"
-                + "1. Insertar Termino en Forma 1.\n"
-                + "2. Eliminar Termino en Forma 1.\n"
-                + "3. MostrarForma 1.\n"
+        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menu Principal (Forma 1)-----\n"
+                + "1. Insertar Termino.\n"
+                + "2. Eliminar Termino.\n"
+                + "3. Mostrar Forma.\n"
                 + "4. Mostrar polinomio.\n"
-                + "5. Evaluar el polinomio con un dato ingresado en Forma 1.\n"
+                + "5. Evaluar el polinomio con un dato ingresado.\n"
                 + "6. Sumar polinomios de la misma forma.\n"
                 + "7. Multiplicar polinomios de la misma forma.\n"
                 + "0. Salir\n"));
@@ -321,12 +337,12 @@ public class clsPolinomios {
     }
     
     public static int Menu2(){
-        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menú Principal -----\n"
-                + "1. Insertar Termino en Forma 2.\n"
-                + "2. Eliminar Termino en Forma 2.\n"
-                + "3. Mostrar Forma 2.\n"
+        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menú Principal (Forma 2)-----\n"
+                + "1. Insertar Termino.\n"
+                + "2. Eliminar Termino.\n"
+                + "3. Mostrar Forma.\n"
                 + "4. Mostrar polinomio.\n"
-                + "5. Evaluar el polinomio con un dato ingresado en Forma 2.\n"
+                + "5. Evaluar el polinomio con un dato ingresado.\n"
                 + "6. Sumar polinomios de la misma forma.\n"
                 + "7. Multiplicar polinomios de la misma forma.\n"
                 + "0. Salir.\n"));
@@ -334,12 +350,12 @@ public class clsPolinomios {
     }
     
     public static int Menu3(){
-        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menú Principal -----\n"
-                + "1. Insertar Termino en Forma 3.\n"
-                + "2. Eliminar Termino en Forma 3.\n"
-                + "3. Mostrar Forma 3.\n"
+        int opc = Integer.parseInt(JOptionPane.showInputDialog("----- Menú Principal (Forma 3)-----\n"
+                + "1. Insertar Termino.\n"
+                + "2. Eliminar Termino.\n"
+                + "3. Mostrar Forma.\n"
                 + "4. Mostrar polinomio.\n"
-                + "5. Evaluar el polinomio con un dato ingresado en Forma 3.\n"
+                + "5. Evaluar el polinomio con un dato ingresado.\n"
                 + "6. Sumar polinomios de la misma forma.\n"
                 + "7. Multiplicar polinomios de la misma forma.\n"
                 + "0. Salir.\n"));

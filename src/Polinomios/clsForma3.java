@@ -1,6 +1,8 @@
 
 package Polinomios;
 
+import javax.swing.JOptionPane;
+
 public class clsForma3 {
     //Atributos
     Nodo Punta;
@@ -49,7 +51,7 @@ public class clsForma3 {
             }
             
             //Agrega coe sin signo
-            int valAbsCoe = (coe < 0) ? -coe : coe;
+            int valAbsCoe = (coe < 0) ? -coe : coe; //Metodo ternario interensante de usar condicion?true:false
             if(valAbsCoe != 1 || exp == 0){
                 s += valAbsCoe;
             }
@@ -66,9 +68,12 @@ public class clsForma3 {
         }
         
         if(s.length() == 0){
+            
             System.out.println("0");
+            JOptionPane.showMessageDialog(null,"0");
         } else {
             System.out.println(s);
+            JOptionPane.showMessageDialog(null,s);
         }
     }
     
@@ -100,7 +105,7 @@ public class clsForma3 {
         Nodo p = Punta;
         Nodo ant = null;
 
-        // 2. Buscar la posición correcta para insertar o encontrar un exponente existente.
+        //Se busca la posición correcta para insertar o encontrar un exponente existente.
         // El bucle avanza mientras no lleguemos al final y el exponente del nodo actual
         // sea mayor que el exponente del nuevo término.
         while (p != null && p.getExp() > exp) {
@@ -108,7 +113,7 @@ public class clsForma3 {
             p = p.getLiga();
         }
 
-        // 3. Evaluar el resultado de la búsqueda.
+        //Evaluar el resultado de la búsqueda.
         //Se encontró un término con el mismo exponente.
         if (p != null && p.getExp() == exp) {
             int nuevoCoe = p.getCoe() + coe;
@@ -137,14 +142,16 @@ public class clsForma3 {
     public void eliminarTermino(int exp){
         //Lista vacia
         if(Punta == null){
-            System.out.println("\n\n\tLista vacia no se puede eliminar nada :) .");
+            System.out.println("\n\nLista vacia no se puede eliminar nada :) ");
+            JOptionPane.showMessageDialog(null,"Lista vacia no se puede eliminar nada :) ");
             return;
         }
         
         //Termino a borrar es la punta
         if(Punta.getExp() == exp){
             Punta = Punta.getLiga(); //La punta la reemplaza la siguiente
-            System.out.println("\n\n\tTermino elevado a " + exp + " borrado :) .");
+            System.out.println("\nTermino elevado a " + exp + " borrado :) ");
+            JOptionPane.showMessageDialog(null,"Termino elevado a " + exp + " borrado :)");
             return;
         }
         
@@ -162,10 +169,12 @@ public class clsForma3 {
         //El termino no se encontro
         if(actual == null){
             System.out.println("\nNo se encontró el termino elevado a " + exp );
+            JOptionPane.showMessageDialog(null,"No se encontró el termino elevado a " + exp);
         } else {
             //Se encontro esa vaina le plantamos cara para eliminarlo
             previo.setLiga(actual.getLiga());
-            System.out.println("\n\n\tSe dado de baja el termino elevado a " + exp);
+            System.out.println("\nSe dado de baja el termino elevado a " + exp);
+            JOptionPane.showMessageDialog(null,"Se dado de baja el termino elevado a " + exp);
         }
     }
     
@@ -175,7 +184,7 @@ public class clsForma3 {
         }
         
         Nodo p = Punta;
-        System.out.println("\n\nContenido de VPF3: ");
+        System.out.println("Contenido de VPF3: ");
         
         while(p != null){
             System.out.print("("+ p.getCoe() + ", " + p.getExp() + ")");
@@ -208,7 +217,8 @@ public class clsForma3 {
             p = p.getLiga();
         }
         
-        System.out.println("El Resultado es: " + resultado);
+        JOptionPane.showMessageDialog(null ,"El resultado es: " + resultado);
+        System.out.println("\n\nEl Resultado es: " + resultado);
     }
     
     public void sumarPolinomiosForma3(clsForma3 B){
@@ -253,8 +263,9 @@ public class clsForma3 {
             q = q.getLiga();
         }
         
-        System.out.println("\nEl resultado de la suma de polinomios es: \n");
-        polC.Reconstruir();
+        System.out.println("\n\nResultado de la suma A+B: ");
+        polC.Reconstruir(); //Muestra polC
+        polC.mostrarLista();
         
     }
     
@@ -271,9 +282,9 @@ public class clsForma3 {
             return;
         }
 
-        // Bucle para iterar a través de cada término del primer polinomio (this).
+        // Bucle para recorrer a través de cada término del primer polinomio.
         while (p != null) {
-            // 'q' recorrerá el segundo polinomio (B) por cada término de 'p'.
+            // 'q' recorrerá B por cada término de 'p'.
             Nodo q = B.getPunta();
 
             // Bucle para multiplicar el término actual de 'p' con cada término de 'q'.
@@ -282,7 +293,7 @@ public class clsForma3 {
                 int nuevoCoe = p.getCoe() * q.getCoe();
                 int nuevoExp = p.getExp() + q.getExp();
 
-                // --- Lógica para insertar/sumar el nuevo término en el polinomio resultado 'polC' ---
+                //Insertar/sumar el nuevo término en el polinomio polC
                 // Si el polinomio resultado está vacío, se inserta el primer término.
                 if (polC.Punta == null) {
                     polC.Punta = new Nodo(nuevoCoe, nuevoExp);
@@ -329,9 +340,9 @@ public class clsForma3 {
             p = p.getLiga();
         }
 
-        // Se muestra el polinomio resultante.
-        System.out.println("\nEl resultado de la multiplicación de polinomios es: \n");
-        polC.Reconstruir();
+        System.out.println("\n\nResultado de la multiplicacion A*B: ");
+        polC.Reconstruir(); //Muestra polC
+        polC.mostrarLista();
     }
 
     public static clsForma3 SumarF1F2(clsForma1 A, clsForma2 B) {
@@ -342,7 +353,7 @@ public class clsForma3 {
             int coe = A.getVPF1()[i];
             int exp = A.getVPF1()[0] - (i - 1);
             if (coe != 0) {
-                resultado.InsertarFinal(coe, exp);
+                resultado.insertarTermino(coe, exp);
             }
         }
 
@@ -351,7 +362,7 @@ public class clsForma3 {
             int coe = B.getVPF2(i - 1);
             int exp = B.getVPF2(i);
             if (coe != 0) {
-                resultado.InsertarFinal(coe, exp);
+                resultado.insertarTermino(coe, exp);
             }
         }
 

@@ -1,5 +1,7 @@
 package Polinomios;
 
+import javax.swing.JOptionPane;
+
 public class clsForma1 {
     //Atributos
     private int Du, VPF1[];
@@ -57,7 +59,7 @@ public class clsForma1 {
          
     }
     
-    public void Recontruir(int[] VPF1){
+    public void Reconstruir(int[] VPF1){
         
         //Valida que el VPF1 es correcto o es 0
         if(VPF1.length <= 1){
@@ -105,15 +107,17 @@ public class clsForma1 {
         }
         
         if(s.length() == 0){
-            System.out.println("\n0");
+            System.out.println("0");
+            JOptionPane.showMessageDialog(null,"0");
         } else {
             System.out.println("\n"+s);
+            JOptionPane.showMessageDialog(null,s);
         }
           
     }
     
     public void mostrarForma() { //Mostrar el VPF1
-        System.out.println("\n\nContenido de VPF1: ");
+        System.out.println("Contenido de VPF1: ");
         for (int i = 0; i < VPF1.length; i++) {
             System.out.print("|" + VPF1[i] + "|");
         }
@@ -121,10 +125,8 @@ public class clsForma1 {
     
     public void insertarTermino(int coe, int exp){
         
-        System.out.println("\n\n\tSe ha insertado el termino: Coeficiente: " + coe + ", Exponente: " + exp);
-        
-        if(coe == 0){ //Caso hipotetico si el coe es cero 
-            return;
+        if(coe == 0){ //Termino tiene coe cero no hace nada
+            return;   //La forma 1 no acepta coe 0
         }
         
         //Exp del coe es mayor que el grado hay redimensionar el VPF1
@@ -177,11 +179,11 @@ public class clsForma1 {
 
         //Validar si el exp pertenece al VPF1
         if(exp<0 || exp>VPF1[0]){
-            System.out.println("\n\n\tEl exponente " + exp + " no pertenece al VPF1");
+            JOptionPane.showMessageDialog(null,"El exponente " + exp + " no pertenece al VPF1");
             return;
         }
         
-        System.out.println("\n\n\tSe ha eliminado el termino con exponente: "+ exp);
+        JOptionPane.showMessageDialog(null,"Se ha eliminado el termino con exponente: "+ exp);
         
         //posicion del termino y volverlo cero
         int pos = Du - exp;
@@ -248,7 +250,8 @@ public class clsForma1 {
             }
         }
         
-        System.out.println("El resultado es: " + resultado);
+        JOptionPane.showMessageDialog(null ,"El resultado es: " + resultado);
+        System.out.println("\n\nEl resultado es: " + resultado);
     }
     
     public void sumarPolinomiosForma1(clsForma1 B) {
@@ -264,10 +267,10 @@ public class clsForma1 {
             gradoMay = gradoB;
         }
 
-        //Se crea el objeto c
+        //Se crea el objeto c que seria como el resultado de la suma
         clsForma1 C = new clsForma1(gradoMay);
 
-        //Se recorre todos los exponentes desde el frado mayor a 0
+        //Se recorre todos los exponentes desde el grado mayor a 0
         for (int exp = gradoMay; exp >= 0; exp--) {
             
             int coeA = 0;
@@ -289,16 +292,18 @@ public class clsForma1 {
             C.setVPF1(posicionC, coeA + coeB);
         }
         
-        //Mostrar suma y c
+        //Mostrar suma y c(resultado)
         System.out.println("\n\n---- Suma de polinomios ----");
-        System.out.println("Polinomio A: ");
-        this.Recontruir(this.getVPF1());//Muestra el primer POLINOMIO 
+        System.out.println("\nPolinomio A: ");
+        this.Reconstruir(this.getVPF1());//Muestra el primer pol
+        this.mostrarForma();
         
-        System.out.println("Polinomio B: ");
-        B.Recontruir(B.getVPF1());//Muestra el segundo POLINOMIO
+        System.out.println("\n\nPolinomio B: ");
+        B.Reconstruir(B.getVPF1());//Muestra el segundo pol
+        B.mostrarForma();
         
-        System.out.println("Resultado de la suma A+B: ");
-        C.Recontruir(C.getVPF1()); //Muestra c
+        System.out.println("\n\nResultado de la suma A+B: ");
+        C.Reconstruir(C.getVPF1()); //Muestra c
         C.mostrarForma();
         
     }
@@ -347,13 +352,15 @@ public class clsForma1 {
         System.out.println("\n\n---- Multiplicacion de polinomios ----");
         
         System.out.println("\nPolinomio A: ");
-        this.Recontruir(this.getVPF1());
+        this.Reconstruir(this.getVPF1());
+        this.mostrarForma();
         
-        System.out.println("\nPolinomio B: ");
-        B.Recontruir(B.getVPF1());
+        System.out.println("\n\nPolinomio B: ");
+        B.Reconstruir(B.getVPF1());
+        B.mostrarForma();
         
-        System.out.println("\nResultado A*B: ");
-        C.Recontruir(C.getVPF1());
+        System.out.println("\n\nResultado A*B: ");
+        C.Reconstruir(C.getVPF1());
         C.mostrarForma();
     }
     
